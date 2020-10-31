@@ -17,7 +17,14 @@ const getMessageById = async (req, res, next) => {
         return next(new HttpError('Could not find a message with the provided ID', 404));
     }
 
-    res.status(200).json({ message });
+    if((message.lifeTime.getTime() - Date.now()) <= 0) {
+        const msg = "The message is expired";
+        message.isActive = false;
+        await message.save();
+        res.status(206).json({ message: msg });
+    } else {
+        res.status(200).json({ message });
+    }
 }
 
 const createMessage = async (req, res, next) => {
@@ -26,10 +33,11 @@ const createMessage = async (req, res, next) => {
         return next(new HttpError('Invalid inputs passed, please check your data', 422));
     }
 
-    const { text, isLink } = req.body;
+    const { text, lifeTime, isLink } = req.body;
 
     const newMessage = new Messages({
         text,
+        lifeTime: lifeTime + Date.now(),
         isLink
     });
 

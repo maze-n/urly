@@ -10,6 +10,7 @@ router.post(
     '/',
     [
         check('text').not().isEmpty(),
+        check('lifeTime').not().isEmpty(),
         check('isLink').not().isEmpty()
     ],
     messageControllers.createMessage

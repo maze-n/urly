@@ -31,8 +31,7 @@ app.use((error, req, res, next) => {
     res.json({message: error.message || 'An unknown error occurred!'});
 });
 
-mongoose
-  .connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
   .then(() => {
     app.listen(process.env.PORT || 5000, () => {
       console.log('Running on port 5000');
@@ -40,4 +39,4 @@ mongoose
   })
   .catch(err => {
     console.error(err);
-  });
+});
