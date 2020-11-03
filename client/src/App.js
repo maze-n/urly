@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
-
 import './components/post';
 import './App.css';
 import Post from './components/post';
