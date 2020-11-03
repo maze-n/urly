@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 
+import Spinner from './components/spinner';
 import './App.css';
 
 class App extends Component {
@@ -11,7 +12,9 @@ class App extends Component {
       text: '',
       isLink: 'false',
       lifeTime: '60000',
-      showPopup: false
+      showPopup: false,
+      warning: '',
+      loading: false
     };
 
   this.changeHandler = this.changeHandler.bind(this);
@@ -41,6 +44,7 @@ class App extends Component {
     e.preventDefault();
 
     if(this.validate()) {
+      this.setState({ warning: "" });
       const message = {
         text: this.state.text,
         isLink: this.state.isLink,
@@ -50,7 +54,9 @@ class App extends Component {
 
       let res;
       try {
+        this.setState({ loading: true });
           res = await Axios.post('http://localhost:5000/api/v1/messages/', message);
+          this.setState({ text: "", loading: false });
       } catch(error) {
           console.log("Failed to send POST request");
       }
@@ -60,28 +66,31 @@ class App extends Component {
           alert(res.data.newMessage._id);
       }
     } else {
-      alert("Please enter a text.");
+      this.setState({ warning: "Oops! No message was provided" })
     }
 }
 
   render() {
-    const { text, isLink, lifeTime } = this.state;
+    const { text, isLink, lifeTime, loading } = this.state;
     return (
       <div className="App">
-          <h1>Welcome to urly!</h1>
+          <h1 className="h1">Welcome to urly!</h1>
             <form onSubmit={ this.submitHandler }>
-              <h2>Create a disappearing 
-                <select name="isLink" value={ isLink } onChange={ this.changeHandler }>
-                  <option value={ false }>Message</option>
-                  <option value={ true }>Link</option>
+              <h2 className="h2">Create a disappearing 
+                <select name="isLink" className="Link" value={ isLink } onChange={ this.changeHandler }>
+                  <option value={ false }>message</option>
+                  <option value={ true }>link</option>
                 </select>
               </h2>
-              Enter:
-              <input id="text" type="text" name="text" value={ text } onChange={ this.changeHandler } />
-              <input id="button" type="submit" value="Generate" />
+              <div>
+                <input id="text" type="text" className="Input" name="text" value={ text } placeholder="Enter your message" onChange={ this.changeHandler } />
+                <button name="submitButton" className="Button" onClick={this.submitHandler}>{this.state.loading ? <Spinner /> : "Generate"}</button>
+              </div>
+              <div>{this.state.warning}</div>
+              <br></br>
               <div>
                 Self-destruct Timer:
-                <select name="lifeTime" value={ lifeTime } onChange={ this.changeHandler }>
+                <select name="lifeTime" className="Link" value={ lifeTime } onChange={ this.changeHandler }>
                   <option value="60000">1 Minute</option>
                   <option value="600000">10 Minutes</option>
                   <option value="3600000">1 Hour</option>

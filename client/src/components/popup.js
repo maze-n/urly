@@ -1,7 +1,7 @@
-import React from 'react';  
+import React, { Component } from 'react';  
 import './style.css';
 
-class Popup extends React.Component {  
+class Popup extends Component {  
     render() {  
         return (  
             <div className='popup'>  
