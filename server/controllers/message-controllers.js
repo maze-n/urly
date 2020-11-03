@@ -35,6 +35,9 @@ const createMessage = async (req, res, next) => {
 
     const { text, lifeTime, isLink } = req.body;
 
+    console.log("Creating new message...");
+    console.log(req.body);
+
     const newMessage = new Messages({
         text,
         lifeTime: lifeTime + Date.now(),
