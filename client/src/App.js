@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Spinner from './components/spinner';
+import Message from './components/message';
 import './App.css';
 
 class App extends Component {
@@ -63,7 +65,7 @@ class App extends Component {
 
       if(res) {
           console.log(res.data.newMessage);
-          alert(res.data.newMessage._id);
+          alert(window.location.href + res.data.newMessage._id);
       }
     } else {
       this.setState({ warning: "Oops! No message was provided" })
@@ -71,9 +73,13 @@ class App extends Component {
 }
 
   render() {
-    const { text, isLink, lifeTime, loading } = this.state;
+    const { text, isLink, lifeTime } = this.state;
     return (
       <div className="App">
+          <Router>
+          <Switch>
+            <Route path="/:mid" component={Message} />
+          <Route path="/">
           <h1 className="h1">Welcome to urly!</h1>
             <form onSubmit={ this.submitHandler }>
               <h2 className="h2">Create a disappearing 
@@ -99,6 +105,9 @@ class App extends Component {
                 </select>
               </div>
             </form>
+          </Route>
+          </Switch>
+          </Router>
       </div>
     );
   }
