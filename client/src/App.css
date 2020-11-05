@@ -73,6 +73,11 @@
   width: auto;
 }
 
+.small {
+  padding-top: 20px;
+  font-size: medium;
+}
+
 .Warning {
   background-color: rgb(255, 56, 56);
   margin-top: 1em;

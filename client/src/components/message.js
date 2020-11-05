@@ -50,6 +50,9 @@ class Message extends Component {
         return(
             <div className="Message">
                 {this.state.isLink ? <div componentDidMount={ window.location.href=this.state.messageText } /> : this.state.messageText}
+                <div className="small">
+                    <a href="http://localhost:3000/">Create your own message</a>
+                </div>
             </div>
         )
     }
