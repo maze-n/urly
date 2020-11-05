@@ -37,6 +37,7 @@ class Message extends Component {
             
             if(status === 500) {
                 console.log("Failed to fetch data from the server");
+                this.setState({ isLink: false, messageText: "Oops! Invalid link." })
             } else if(status === 404) {
                 this.setState({ isLink: false, messageText: "Could not find a message with the given link" });
             } else {

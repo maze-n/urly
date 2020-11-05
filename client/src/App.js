@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Spinner from './components/spinner';
 import Message from './components/message';
+import Popup from './components/popup';
 import './App.css';
 
 class App extends Component {
@@ -15,12 +16,18 @@ class App extends Component {
       isLink: 'false',
       lifeTime: '60000',
       showPopup: false,
-      warning: '',
-      loading: false
+      warning: false,
+      loading: false,
+      url: ''
     };
 
   this.changeHandler = this.changeHandler.bind(this);
   this.submitHandler = this.submitHandler.bind(this);
+  this.popupCloser = this.popupCloser.bind(this);
+  }
+
+  popupCloser() {
+    this.setState({ showPopup: false });
   }
 
   validate = () => {
@@ -46,7 +53,7 @@ class App extends Component {
     e.preventDefault();
 
     if(this.validate()) {
-      this.setState({ warning: "" });
+      this.setState({ warning: false });
       const message = {
         text: this.state.text,
         isLink: this.state.isLink,
@@ -65,10 +72,10 @@ class App extends Component {
 
       if(res) {
           console.log(res.data.newMessage);
-          alert(window.location.href + res.data.newMessage._id);
+          this.setState({ showPopup: true, url: (window.location.href + res.data.newMessage._id) });
       }
     } else {
-      this.setState({ warning: "Oops! No message was provided" })
+      this.setState({ warning: true, showPopup: false })
     }
 }
 
@@ -80,7 +87,7 @@ class App extends Component {
           <Switch>
             <Route path="/:mid" component={Message} />
           <Route path="/">
-          <h1 className="h1">Welcome to urly!</h1>
+          <h1 className="h1">Urly!</h1>
             <form onSubmit={ this.submitHandler }>
               <h2 className="h2">Create a disappearing 
                 <select name="isLink" className="Link" value={ isLink } onChange={ this.changeHandler }>
@@ -92,7 +99,9 @@ class App extends Component {
                 <input id="text" type="text" className="Input" name="text" value={ text } placeholder="Enter your message" onChange={ this.changeHandler } />
                 <button name="submitButton" className="Button" onClick={this.submitHandler}>{this.state.loading ? <Spinner /> : "Generate"}</button>
               </div>
-              <div>{this.state.warning}</div>
+              <div>
+                {this.state.warning ? <div className="Warning">Oops! No message was provided!</div> : ""}
+              </div>
               <br></br>
               <div>
                 Self-destruct Timer:
@@ -105,6 +114,7 @@ class App extends Component {
                 </select>
               </div>
             </form>
+            {this.state.showPopup ? <Popup text={this.state.url} popupCloser={this.popupCloser} /> : ""}
           </Route>
           </Switch>
           </Router>

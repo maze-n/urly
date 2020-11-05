@@ -1,29 +1,55 @@
-.popup {  
-    position: fixed;  
-    width: 400px;  
-    height: 300px;  
-    top: 0;  
-    left: 0;  
-    right: 0;  
-    bottom: 0;  
-    margin: auto;  
-    background-color: rgb(143, 143, 143);
-    border-radius: 20px;
-}
-
-.popup\_inner {  
-    position: absolute;  
-    left: 25%;  
-    right: 25%;
-    vertical-align: middle;
-    top: 25%;  
-    bottom: 25%;  
-    margin: auto;  
-    border-radius: 20px;
-    background: white;  
-}
-
 @keyframes spin {
     from {transform:rotate(0deg);}
     to {transform:rotate(360deg);}
-  }
+}
+
+.Popup {
+    position: fixed;
+    z-index: 500;
+    background-color: rgb(255, 245, 199);
+    width: 70%;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 2px black;
+    padding: 16px;
+    left: 15%;
+    top: 30%;
+    box-sizing: border-box;
+    border-radius: 15px;
+    transition: all 0.3s ease-out;
+    font-weight: bolder;
+    font-size: large;
+}
+
+.url {
+    color: rgb(74, 0, 160);
+    text-decoration: underline;
+    padding: 10px;
+}
+
+.copy {
+    color: rgb(217, 194, 240);
+    background-color: rebeccapurple;
+    margin-top: 10px;
+    margin-left: 150px;
+    margin-right: 150px;
+    padding: 10px;
+    border-radius: 30px;
+    border: 0;
+    transition: 0.3s;
+}
+
+.close {
+    margin-right: 555px;
+}
+
+.copy:hover {
+    background-color: rgb(209, 168, 250);
+    color: rgb(78, 25, 78);
+}
+
+@media (min-width: 600px) {
+    .Popup {
+        width: 500px;
+        left: calc(50% - 250px);
+    }
+}
